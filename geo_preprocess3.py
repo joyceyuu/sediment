@@ -77,7 +77,7 @@ def regression(data, regressor, n_splits=3,
     y_ind : int; column index of target variable, recommend the last column;
             Optional
 
-    fit_with lon_lat : boolean; 
+    fit_with lon_lat : boolean;
                        --if true, then add lon and lat as two features
                        --if false, not add lon and lat as two features
 
@@ -132,7 +132,7 @@ def regression(data, regressor, n_splits=3,
 
 
 def predict(X, regressor, lon_ind=0, lat_ind=1, n_splits=3):
-   
+
     # obtain training and testing indices
     kf = LongFold(n_splits=n_splits)
     train_indices = []
@@ -196,7 +196,9 @@ def draw_global(c, title, longitude, latitude, vmin=2.4, vmax=9,
 
 
 def two_feature_analysis(data, regressor, feature1_ind, feature2_ind,
-                         lon_ind=0, lat_ind=1, y_ind=-1, query_size=10):
+                         feature1_name, feature2_name, y_name,
+                         lon_ind=0, lat_ind=1, y_ind=-1, query_size=10,
+                         ):
     # set up variables
     X = data[:, :y_ind]
     log_thick = np.log(data[:, y_ind])
@@ -224,10 +226,10 @@ def two_feature_analysis(data, regressor, feature1_ind, feature2_ind,
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     surf = ax.plot_surface(xeval, yeval, fea_pred_arr, rstride=1, cstride=1,
-                           cmap='coolwarm', lw=0.1, vmin=2.4, vmax=9)
-    ax.set_xlabel('feature1')
-    ax.set_ylabel('feature2')
-    ax.set_zlabel('predicted log thickness')
+                           cmap='coolwarm', lw=0.1, vmin=-4, vmax=4)
+    ax.set_xlabel(feature1_name)
+    ax.set_ylabel(feature2_name)
+    ax.set_zlabel(y_name)
     fig.colorbar(surf, shrink=0.5, aspect=5)
     plt.title('Regression Surface')
     plt.show()
